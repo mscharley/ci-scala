@@ -1,0 +1,13 @@
+FROM alpine:latest
+MAINTAINER "Matthew Scharley <matt.scharley@gmail.com>"
+
+ENV COURSIER_VERSION="1.0.0-RC3"
+USER root
+RUN apk add --no-cache bash curl git gzip ncurses openssh-client openjdk8 tar && \
+    curl -s https://raw.githubusercontent.com/coursier/coursier/v$COURSIER_VERSION/csbt > /usr/local/bin/sbt && \
+    chmod 0755 /usr/local/bin/sbt && \
+    mkdir -p ~/.sbt/0.13/plugins/ && \
+    echo 'addSbtPlugin("io.get-coursier" % "sbt-coursier" % "'"$COURSIER_VERSION"'")' > ~/.sbt/0.13/plugins/plugins.sbt
+ENV TERM=xterm
+WORKDIR /tmp
+CMD ["sh"]
